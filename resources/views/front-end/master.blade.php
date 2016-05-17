@@ -71,7 +71,7 @@
                             <div class="form-group input-serach">
                                 <input type="text" ng-model="search.productName" placeholder="Nhập từ khóa...">
                             </div>
-                            <button type="submit" ng-click="seachProduct()" class="pull-right btn-search"></button>
+                            <a href="/product/search/@{{search.productName || ' '}}" class="pull-right btn-search"></a>
                         </form>
                     </div>
                     <div id="cart-block" class="col-xs-5 col-sm-2 shopping-cart-box">

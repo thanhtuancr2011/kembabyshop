@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryModel;
 use App\Models\ProductModel;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller
 {
@@ -34,44 +36,12 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
@@ -97,25 +67,5 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Search product
-     *
-     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-     * 
-     * @param  Request $request Request
-     * 
-     * @return Response           
-     */
-    public function searchProduct (Request $request)
-    {
-        $data = $request->all();
-
-        $productModel = new ProductModel;
-
-        $products = $productModel->getProductWithName($data['productName']);
-
-        return redirect('/search')->with('products', $products); 
     }
 }

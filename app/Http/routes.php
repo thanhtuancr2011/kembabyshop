@@ -78,5 +78,5 @@ Route::get('customer/logout', 'Auth\AuthController@getLogout');
 Route::post('customer/login', 'Auth\AuthController@postLogin');
 Route::resource('customer', 'Frontend\CustomerController');
 
-Route::get('search', 'Frontend\HomeController@getSearch');
+Route::get('product/search/{id}', 'Frontend\HomeController@getSearch');
 

@@ -8,6 +8,8 @@ productApp.controller('ProductController', ['$scope', '$rootScope', '$uibModal',
 
 	$scope.product = window.product;
 
+	$scope.products = window.products;
+
 	$scope.saleProducts = [];
 	angular.forEach(window.saleProducts, function(value, key) {
 		if (key <= 2) {

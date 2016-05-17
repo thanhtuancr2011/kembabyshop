@@ -44,17 +44,6 @@ class HomeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -77,30 +66,20 @@ class HomeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Get search products
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+     * 
+     * @param  String $name Data name search
+     * 
+     * @return Response       
      */
-    public function update(Request $request, $id)
+    public function getSearch ($name) 
     {
-        //
-    }
+        $productModel = new ProductModel;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        $products = $productModel->getProductWithName($name);
 
-    public function getSearch () 
-    {
-        return view('front-end.search.index');
+        return view('front-end.search.index', compact('products'));
     }
 }

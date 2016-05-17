@@ -1,12 +1,12 @@
 @extends('front-end.master')
 @section('title')
-    Danh mục
+    Tìm kiếm
 @endsection
 @section('breadcrumb')
-    Danh mục
+    Tìm kiếm
 @endsection
 @section('content')
-<div class="columns-container" data-ng-controller="SearchController">
+<div class="columns-container" data-ng-controller="ProductController">
     <div class="container" id="columns">
         <!-- breadcrumb -->
         <div class="breadcrumb clearfix">
@@ -31,29 +31,7 @@
                                 
                                 <div data-label-reasult="Khoảng:" data-min="0" data-max="1000000" data-unit="₫" class="slider-range-price" data-value-min="0" data-value-max="1000000"></div>
                                 <div class="amount-range-price">Khoảng: 0 ₫ - 1,000,000 ₫</div>
-                                <!-- <ul class="check-box-list">
-                                    <li>
-                                        <input type="checkbox" id="p1" checked="true" disabled name="cc"/>
-                                        <label for="p1">
-                                        <span class="button"></span>
-                                        0 - 300,000 ₫<span class="count">(@{{priceRange1}})</span>
-                                        </label>   
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="p2" checked="true" disabled name="cc" />
-                                        <label for="p2">
-                                        <span class="button"></span>
-                                        301,000 đ - 600,000 ₫<span class="count">(@{{priceRange2}})</span>
-                                        </label>   
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="p3" checked="true" disabled name="cc" />
-                                        <label for="p3">
-                                        <span class="button"></span>
-                                        600,000 đ - 1,000,000 ₫<span class="count">(@{{priceRange3}})</span>
-                                        </label>   
-                                    </li>
-                                </ul> -->
+                                
                             </div>
                             <!-- ./filter price -->
                             <!-- filter color -->
@@ -211,22 +189,10 @@
             <!-- ./left colunm -->
             <!-- Center colunm-->
             <div class="center_column col-xs-12 col-sm-9" id="center_column">
-                <!-- category-slider -->
-                <!--  <div class="category-slider">
-                    <ul class="owl-carousel owl-style2" data-dots="false" data-loop="true" data-nav = "true" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-items="1">
-                        <li>
-                            <img src="/assets/data/category-slide.jpg" alt="category-slider">
-                        </li>
-                        <li>
-                            <img src="/assets/data/slide-cart2.jpg" alt="category-slider">
-                        </li>
-                    </ul>
-                </div> -->
-                <!-- ./category-slider -->
                 <!-- view-product-list-->
                 <div id="view-product-list" class="view-product-list">
                     <h2 class="page-heading">
-                        <span class="page-heading-title">Sản phẩm </span>
+                        <span class="page-heading-title">Sản phẩm được tìm thấy </span>
                     </h2>
                     <ul class="display-product-option">
                         <li class="view-as-grid selected">
@@ -237,7 +203,7 @@
                         </li>
                     </ul>
                     <!-- PRODUCT LIST -->
-                    <ul class="row product-list grid" data-ng-controller="ProductController">
+                    <ul class="row product-list grid">
                         <li class="col-sx-12 col-sm-4" ng-repeat="product in products">
                             <div class="product-container">
                                 <div class="left-block">
@@ -284,7 +250,9 @@
 @endsection
 
 @section('script')
-  
-    {!! Html::script('app/components/front-end/search/SearchService.js?v='.getVersionScript())!!}
-    {!! Html::script('app/components/front-end/search/SearchController.js?v='.getVersionScript())!!}
+    <script type="text/javascript">
+        window.products = {!! json_encode($products) !!};
+    </script>
+    {!! Html::script('/app/components/front-end/product/ProductService.js?v='.getVersionScript())!!}
+    {!! Html::script('/app/components/front-end/product/ProductController.js?v='.getVersionScript())!!}
 @endsection

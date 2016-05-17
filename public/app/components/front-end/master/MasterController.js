@@ -1,4 +1,4 @@
-masterApp.controller('MasterController', ['$scope', '$rootScope', '$uibModal', '$filter', 'CartService', '$timeout', 'MasterService', function ($scope, $rootScope, $uibModal, $filter, CartService, $timeout, MasterService) {
+masterApp.controller('MasterController', ['$scope', '$rootScope', '$uibModal', '$filter', 'CartService', '$timeout', 'MasterService', '$http', function ($scope, $rootScope, $uibModal, $filter, CartService, $timeout, MasterService, $http) {
 	/* When js didn't  loaded then hide element */
 	$('.home').removeClass('hidden');
 
@@ -50,12 +50,4 @@ masterApp.controller('MasterController', ['$scope', '$rootScope', '$uibModal', '
 	}
 
 	$scope.search = {};
-
-	$scope.seachProduct = function () {
-		$('#page-loading').css('display', 'block');
-		MasterService.searchProduct($scope.search).then(function (data){
-			
-		})
-	}
-
 }]);

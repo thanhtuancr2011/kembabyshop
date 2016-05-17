@@ -335,6 +335,12 @@ class ProductModel extends Model
         $products = self::where('name', 'like', '%'.$name.'%')
                         ->select('id', 'name', 'price', 'old_price', 'category_id')
                         ->get();
+
+        foreach ($products as $key => &$product) {
+            $product->images = $product->images()
+                             ->select('folder', 'stored_file_name')
+                             ->where('name', 'like', '1%')->first();
+        }
         
         return $products;
     }
