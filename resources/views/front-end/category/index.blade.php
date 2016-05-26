@@ -29,8 +29,8 @@
                             <div class="layered_subtitle">Giá</div>
                             <div class="layered-content slider-range">
                                 
-                                <div data-label-reasult="Khoảng:" data-min="0" data-max="1000000" data-unit="₫" class="slider-range-price" data-value-min="0" data-value-max="1000000"></div>
-                                <div class="amount-range-price">Khoảng: 0 ₫ - 1,000,000 ₫</div>
+                                <div data-label-reasult="Khoảng:" data-min="0" data-max="10000000" data-unit="₫" class="slider-range-price" data-value-min="0" data-value-max="10000000"></div>
+                                <div class="amount-range-price">Khoảng: 0 ₫ - 10,000,000 ₫</div>
                                 <!-- <ul class="check-box-list">
                                     <li>
                                         <input type="checkbox" id="p1" checked="true" disabled name="cc"/>

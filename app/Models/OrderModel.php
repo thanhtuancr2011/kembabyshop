@@ -34,8 +34,8 @@ class OrderModel extends Model
      */
 	public function createNewOrder($customerId)
 	{
-		$dataOrder['status'] = 0;             			// Order status
-		$dataOrder['amount'] = getPriceTotal();			// Total price of order
+		$dataOrder['status'] = 0;             		// Order status
+		$dataOrder['amount'] = getPriceTotal();		// Total price of order
 		$dataOrder['user_id'] = $customerId;		// Customer id
 
 		// Create order
@@ -46,7 +46,7 @@ class OrderModel extends Model
 		foreach ($carts as $key => $cart) {
 
 			$dataOrderDetail = [];
-			$dataOrderDetail['amount'] = $cart->qty * $cart->price;    // Total price of order
+			$dataOrderDetail['amount'] = $cart->qty * $cart->price;  // Total price of order
 			$dataOrderDetail['status'] = 0;							 // Said the state has sent mail
 			$dataOrderDetail['quantity'] = $cart->qty;				 // Total item of cart product's
 			$dataOrderDetail['product_id'] = $cart->id;				 // Product id
@@ -58,9 +58,15 @@ class OrderModel extends Model
 		return $order;
 	}
 
+	/**
+	 * After send email create order for user then update status of order detail
+	 *
+	 * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+	 * 
+	 * @return Void 
+	 */
 	public function updateStatusForOrderDetail()
 	{
 		$this->orderDetails()->update(['status' => 1]);
 	}
-
 }

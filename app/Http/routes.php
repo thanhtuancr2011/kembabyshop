@@ -51,6 +51,7 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::resource('user', 'Backend\UserController');
 	Route::resource('category', 'Backend\CategoryController');
 	Route::resource('product', 'Backend\ProductController');
+Route::resource('order', 'Backend\OrderController');
 });
 
 Route::get('product/file/download/{id}','BackEnd\FileProductController@download');
@@ -79,4 +80,5 @@ Route::post('customer/login', 'Auth\AuthController@postLogin');
 Route::resource('customer', 'Frontend\CustomerController');
 
 Route::get('product/search/{id}', 'Frontend\HomeController@getSearch');
+
 

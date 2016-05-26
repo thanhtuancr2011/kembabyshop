@@ -29,8 +29,8 @@
                             <div class="layered_subtitle">Giá</div>
                             <div class="layered-content slider-range">
                                 
-                                <div data-label-reasult="Khoảng:" data-min="0" data-max="1000000" data-unit="₫" class="slider-range-price" data-value-min="0" data-value-max="1000000"></div>
-                                <div class="amount-range-price">Khoảng: 0 ₫ - 1,000,000 ₫</div>
+                                <div data-label-reasult="Khoảng:" data-min="0" data-max="10000000" data-unit="₫" class="slider-range-price" data-value-min="0" data-value-max="10000000"></div>
+                                <div class="amount-range-price">Khoảng: 0 ₫ - 10,000,000 ₫</div>
                                 
                             </div>
                             <!-- ./filter price -->
@@ -192,7 +192,7 @@
                 <!-- view-product-list-->
                 <div id="view-product-list" class="view-product-list">
                     <h2 class="page-heading">
-                        <span class="page-heading-title">Sản phẩm được tìm thấy </span>
+                        <span class="page-heading-title">Sản phẩm </span>
                     </h2>
                     <ul class="display-product-option">
                         <li class="view-as-grid selected">

@@ -48,9 +48,18 @@
                         <li>
                             <a href="/admin/user" class="active">Danh sách người dùng</a>
                         </li>
-                        {{-- <li>
-                            <a href="#">Add User</a>
-                        </li> --}}
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+            @endif
+
+            @if(Auth::user()->is('super.admin') || Auth::user()->is('super.mod'))
+                <li @if(Request::is('admin/order')) class="active" @endif>
+                    <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Hóa đơn<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/admin/order" class="active">Danh sách hóa đơn</a>
+                        </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>

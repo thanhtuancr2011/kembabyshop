@@ -6,5 +6,6 @@ angular.module('selectLevelCategory', []);
 angular.module('file', []);
 angular.module('CartApp', []);
 angular.module('CustomerApp', []);
+angular.module('OrderApp', []);
 
 
