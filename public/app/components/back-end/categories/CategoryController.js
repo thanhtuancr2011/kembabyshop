@@ -173,6 +173,10 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	$('#page-wrapper').removeClass('hidden');
 	$('#page-loading').css('display', 'none');
 
+	$scope.initSortNumber = function () {
+    	$("#sort-order").maskMoney({suffix: '', precision: 0});
+    };
+
 	/* Show categories tree */
 	$timeout(function(){
 		$scope.categoriesTree = angular.copy(window.categoriesTree);

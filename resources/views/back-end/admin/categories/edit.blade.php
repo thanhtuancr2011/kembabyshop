@@ -37,12 +37,7 @@
                     <div class="form-group" ng-class="{true: 'has-error'}[submitted && formCategory.sort_order.$invalid]">
                         <label for="last_name">Vị trí </label>
                         <div class="">
-                            <input class="form-control" placeholder="Vị trí sắp xếp" type="number" name="sort_order" id="sort_order" 
-                                   ng-model="categoryItem.sort_order" 
-                                   min="0"
-                                   max="100" >
-                            <label class="control-label" ng-show="submitted && formCategory.sort_order.$error.min">Giá trị nhỏ nhất là 0</label>
-                            <label class="control-label" ng-show="submitted && formCategory.sort_order.$error.max">Giá trị lớn nhất là 100</label>
+                            <input class="form-control" ng-init="initSortNumber()" placeholder="Vị trí" type="text" name="sort_order" id="sort-order" ng-model="categoryItem.sort_order" ng-required="true">
                         </div>
                     </div>
                     <div class="form-group" >

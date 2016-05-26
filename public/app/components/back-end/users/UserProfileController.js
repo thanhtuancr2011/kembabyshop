@@ -39,7 +39,7 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
 
     $scope.getModalCropAvatar = function(size) {
         var modalInstance = $uibModal.open({
-            templateUrl: window.baseUrl + '/app/components/users/view/modal/myModalContent.html',
+            templateUrl: window.baseUrl + '/app/components/back-end/users/view/modal/myModalContent.html',
             controller: 'ModalChangeAvatar',
             size: size,
             resolve: {

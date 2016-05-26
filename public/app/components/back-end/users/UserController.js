@@ -55,7 +55,7 @@ userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableP
 
 	/* Delete user */
 	$scope.removeUser = function(id, size){
-		var template = '/app/components/users/view/DeleteUser.html?v=' + new Date().getTime() /* Delete user */
+		var template = window.baseUrl + '/app/components/back-end/users/view/DeleteUser.html?v=' + new Date().getTime() /* Delete user */
 		var modalInstance = $uibModal.open({
 		    animation: $scope.animationsEnabled,
 		    templateUrl: window.baseUrl + template,
