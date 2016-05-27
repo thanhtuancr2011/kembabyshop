@@ -20,17 +20,17 @@
                         <i class="fa fa-search"></i>
                     </a>
                     <tbody>
-                        <tr  ng-repeat="product in $data">
-                            <td data-title="'Tên'" filter="{ 'name': 'text' }" sortable="'name'">
+                        <tr ng-repeat="product in $data">
+                            <td class="text-center" data-title="'Tên'" filter="{ 'name': 'text' }" sortable="'name'">
                                 @{{product.name}}
                             </td>
-                            <td data-title="'Danh mục'" sortable="'parent_id'">
+                            <td class="text-center" data-title="'Danh mục'" sortable="'parent_id'">
                                 <span >@{{listCategories[product.category_id]}}</span>
                             </td>
-                            <td data-title="'Từ khóa'" filter="{ 'keywords': 'text' }" sortable="'keywords'">
+                            <td class="text-center" data-title="'Từ khóa'" filter="{ 'keywords': 'text' }" sortable="'keywords'">
                                 @{{product.keywords}}
                             </td>
-                            <td data-title="''">
+                            <td class="text-center" data-title="''">
                                 <a href="javascript:void(0)" ng-click="editProduct(product.id)" class="action-icon">
                                     <i class="fa fa-pencil"></i>
                                 </a>

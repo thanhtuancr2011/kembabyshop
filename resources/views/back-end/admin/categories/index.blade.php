@@ -21,24 +21,24 @@
                     </a>
                     <tbody>
                         <tr  ng-repeat="category in $data">
-                            <td data-title="'STT'">
+                            <td class="text-center" data-title="'STT'">
                                 @{{$index + 1}}
                             </td>
-                            <td data-title="'Tên'" filter="{ 'name': 'text' }" sortable="'name'">
+                            <td class="text-center" data-title="'Tên'" filter="{ 'name': 'text' }" sortable="'name'">
                                 @{{category.name}}
                             </td>
-                            <td data-title="'Danh mục cha'" sortable="'parent_id'">
+                            <td class="text-center" data-title="'Danh mục cha'" sortable="'parent_id'">
                                 <span ng-if="listCategories[category.parent_id] == null">None</span>
                                 <span ng-if="listCategories[category.parent_id] != null">@{{listCategories[category.parent_id]}}</span>
                             </td>
-                            <td data-title="'Vị trí'" filter="{ 'sort_order': 'text' }" sortable="'sort_order'">
+                            <td class="text-center" data-title="'Vị trí'" filter="{ 'sort_order': 'text' }" sortable="'sort_order'">
                                 <span ng-if="category.sort_order == null">None</span>
                                 <span ng-if="category.sort_order != null">@{{category.sort_order}}</span>
                             </td>
-                            <td data-title="'Từ khóa'" filter="{ 'keywords': 'text' }" sortable="'keywords'">
+                            <td class="text-center" data-title="'Từ khóa'" filter="{ 'keywords': 'text' }" sortable="'keywords'">
                                 @{{category.keywords}}
                             </td>
-                            <td data-title="''">
+                            <td class="text-center" data-title="''">
                                 <a href="javascript:void(0)" ng-click="editCategory(category.id)" class="action-icon">
                                     <i class="fa fa-pencil"></i>
                                 </a>
