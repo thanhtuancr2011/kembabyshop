@@ -273,7 +273,9 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	function ($scope, $uibModalInstance, categoryId, CategoryService) {
 		/* When user click Delete category */
 		$scope.submit = function () {
+			$('#page-loading').css('display', 'block');
 			CategoryService.deleteCategory(categoryId).then(function (){
+				$('#page-loading').css('display', 'none');
 				$uibModalInstance.close();
 			});
 		};

@@ -50,7 +50,7 @@ productApp.controller('ProductController', ['$scope', '$uibModal', '$filter', 'n
 
 	/* Delete product */
 	$scope.removeProduct = function(id, size){
-		var template = '/app/components/products/view/DeleteProduct.html?v=' + new Date().getTime();  /* Delete product */
+		var template = '/app/components/back-end/products/view/DeleteProduct.html?v=' + new Date().getTime();  /* Delete product */
 		var modalInstance = $uibModal.open({
 		    animation: $scope.animationsEnabled,
 		    templateUrl: window.baseUrl + template,
