@@ -13,8 +13,6 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "gloudemans/shoppingcart": "~1.3",
         "predis/predis": "^1.0",
-        "jenssegers/mongodb": "^3.0",
-        "mongodb/mongodb": "^1.0.0",
         "swiftmailer/swiftmailer": "^5.4",
         "laravel/socialite": "~2.0",
         "facebook/php-sdk": "~3.2",
