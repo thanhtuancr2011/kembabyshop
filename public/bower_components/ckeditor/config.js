@@ -5,7 +5,7 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	config.language = 'vi';
-	config.uiColor = '#F7B42C';
+	config.uiColor = '#337ab7';
 	config.height = 300;
 	config.toolbarCanCollapse = true;
 	config.filebrowserBrowseUrl = '/bower_components/kcfinder/browse.php?opener=ckeditor&type=files';

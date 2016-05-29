@@ -119,7 +119,6 @@ return [
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -141,7 +140,6 @@ return [
         Illuminate\Auth\AuthServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -206,7 +204,6 @@ return [
         'Html'      => Illuminate\Html\HtmlFacade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Cart'      => Gloudemans\Shoppingcart\Facades\Cart::class,
-        'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class
     ],
 
