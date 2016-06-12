@@ -148,6 +148,14 @@ class AuthController extends Controller
     }
 
     /**
+     * Login path
+     */
+    public function loginPath()
+    {
+        return '/auth/login';
+    }
+
+    /**
      * Get the failed login message.
      *
      * @return string
