@@ -147,24 +147,13 @@
                                         <b style="font-size:13px;padding-top:5px;font-size:14px">© 2016 <a href="https://ShopTreTho.com.vn" style="text-decoration:none;color:#222" target="_blank">Kembabyshop.com.vn</a> - Thiên đường cho Mẹ và Bé!</b>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="color:#888;font-size:12px;line-height:18px;padding-right:10px">
-                                        GPĐKKD số 0104406702 do sở KHĐT TP.Hà Nội cấp ngày 28/01/2010. Giấy phép MXH số 06/GXN-TTĐT do Cục QL Phát thanh, Truyền hình và TTĐT cấp ngày 16/01/2013.
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div style="float:right;width:106px;margin:12px 0 8px 0;text-align:right">
-                        <a href="https://www.facebook.com/shoptrethovn" target="_blank"><img src="https://ci6.googleusercontent.com/proxy/Zr3RCWpWf7zB_gwC4AUUApBBRCDieDQ8XT4IjfKjJIKHdvA2izpmqsOrAF4EDeXNr2GBnNxfDa3keQa_QjEvQmMGLP5iJNTBDA=s0-d-e1-ft#http://media.shoptretho.com.vn/upload/km/Icon/F.png" alt="facebook shoptretho" class="CToWUd"></a>
-                        <!-- <a href="https://twitter.com/shoptretho" target="_blank"><img src="https://ci5.googleusercontent.com/proxy/q4e4IWOY4kIJ1FTGsCJpFl9m10EInjgzuHyx2hYSO33Vnc4QO2sOpvizsrMIT-_D2Vef74-kn9YNV3CIziMMfG0eGf65tTjcbQ=s0-d-e1-ft#http://media.shoptretho.com.vn/upload/km/Icon/T.png" alt="twiter shoptretho" class="CToWUd"></a> -->
+                        <a href="https://www.facebook.com/KEM-BABY-SHOP-HCM-1512771105666798/" target="_blank"><img src="https://ci6.googleusercontent.com/proxy/Zr3RCWpWf7zB_gwC4AUUApBBRCDieDQ8XT4IjfKjJIKHdvA2izpmqsOrAF4EDeXNr2GBnNxfDa3keQa_QjEvQmMGLP5iJNTBDA=s0-d-e1-ft#http://media.shoptretho.com.vn/upload/km/Icon/F.png" alt="facebook shoptretho" class="CToWUd"></a>
                         <a href="https://plus.google.com/+shoptrethoonline" style="margin-right:26px" target="_blank"><img src="https://ci6.googleusercontent.com/proxy/5wYvGzgyWHsWZyfHOb8BvIuWSNrpWqK3gIBKm3WfCA2p-bugTSykRjYw3UY04ahWxD8K4oSXU2Cgsq58tpsNEZTIm3vq7t5pig=s0-d-e1-ft#http://media.shoptretho.com.vn/upload/km/Icon/G.png" alt="G+ shoptretho" class="CToWUd"></a>
-                    </div>
-                    <!-- <div style="width:160px;min-height:47px;display:block;border-radius:3px;float:left">
-                        <a href="https://shoptretho.com.vn/lien-he" target="_blank">
-                        <img src="https://ci6.googleusercontent.com/proxy/dXeDxALgvKP7sVd1_au69cQBV80k5AB_F8hM8Qm9sfGRtdfPrgUVgSJeKKOgu7rhNhuLEUhqCIQ34CgENGOu3asBlKOHQohUvn3ZPh3S5IX7TnJ3JHwghvbEqFdA6_CLxbnC=s0-d-e1-ft#http://media.shoptretho.com.vn/upload/km/Icon/icon-xem-danh-sach-cua-hang.png" alt="Danh sách cửa hàng shoptretho" width="160" class="CToWUd">
-                        </a>
-                    </div> -->
+                    </div>                
                 </td>
             </tr>
         </tbody>

@@ -490,7 +490,7 @@ table.dataTable thead .sorting:after {
     height: 5px !important;
     margin-bottom: 0;
     text-align: center;
-    background: #5AB5DC;
+    background: #ddd;
 }
 .progress .progress-bar {
     text-align: center;

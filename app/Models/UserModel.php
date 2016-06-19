@@ -59,8 +59,9 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
     }   
 
     /**
-     * [getAllUser description]
-     * @return Array Object user
+     * Get all user
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+     * @return Array Users
      */
     public function getAllUser()
     {
@@ -83,8 +84,10 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
     {
         /* Format created date */
         $user->created_at = date('Y-m-d', strtotime($user->created_at));
+
         /* Get avatar for user */
         $user->avatar = $this->getAvatarUrl($user->avatar, '50x50');
+
         /* Get full name for user */
         $user->name = trim($user->last_name) . ' ' . trim($user->first_name);
 
@@ -117,21 +120,31 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
     {
         /* Encrypt password */
         $data['password'] = bcrypt($data['password']);
+
+        /* Get remember token */
+        $data['remember_token'] = str_random(40);
+
         /* Create new user */
         $user = self::create($data);
-        /* Search Mod role */
+
+        /* Get mod role */
         $modRole = RoleModel::where('slug', 'super.mod')->first();
-        /* Search Mod permission */
+
+        /* Get mod permission */
         $modPermission = PermissionModel::where('slug', 'user.mod')->first();
+
         /* Attach mod role and mod permission for user is created */
         $user->attachRole($modRole);
         $user->attachPermission($modPermission);
-        /* Format created date */
-        $user->created_at = date('Y-m-d', strtotime($user->created_at));
+
         /* Get avatar for user */
         $user->avatar = $this->getAvatarUrl($user->avatar, '160x160');
+        
         /* Get full name for user */
         $user->name = trim($user->last_name) . ' ' . trim($user->first_name);
+
+        /* Format created date */
+        $user->created_at = date('Y-m-d', strtotime($user->created_at));
 
         return $user;
     }

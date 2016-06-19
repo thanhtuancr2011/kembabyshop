@@ -10,7 +10,7 @@
 <div class="modal-body">
     <div class="innerAll">
         <div class="innerLR">
-            <form method="POST" action="{{{ URL::to('users') }}}" accept-charset="UTF-8" name="formAddUser"  ng-init='userItem={{$item}}'>
+            <form method="POST" action="{{{ URL::to('users') }}}" accept-charset="UTF-8" name="formAddUser" ng-init='userItem={{$item}}'>
                 <input type="hidden" name="_token" value="csrf_token()" />
                 <div class="form-group">
 

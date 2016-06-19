@@ -36,9 +36,6 @@ class UserController extends Controller
         /* Get all data input */
         $data = $request->all();
 
-        /* Get remember token */
-        $data['remember_token'] = csrf_token();
-
         /* Init user model to call function in it */
         $userModel = new UserModel;
         
@@ -72,9 +69,6 @@ class UserController extends Controller
 
         /* Find user */
         $user = UserModel::findOrFail($id);
-
-        /* Init user model to call function in it */
-        $userModel = new UserModel;
 
         /* Call function create new user */
         $user = $user->updateUser($data);

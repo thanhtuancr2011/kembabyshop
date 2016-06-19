@@ -1,4 +1,4 @@
-userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableParams', 'UserService', function ($scope, $uibModal, $filter, ngTableParams, UserService) {
+userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableParams', 'UserService', '$timeout', function ($scope, $uibModal, $filter, ngTableParams, UserService, $timeout) {
 	/* When js didn't  loaded then hide table user */
 	$('.container-fluid').removeClass('hidden');
 	$('#page-loading').css('display', 'none');
@@ -30,9 +30,9 @@ userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableP
     })
 
 	$scope.getModalUser = function(id){
-		var template = '/admin/user/create';  /* Create user */
+		var template = '/admin/user/create?v='+ new Date().getTime();  /* Create user */
 		if(typeof id != 'undefined'){
-			template = '/admin/user/'+ id + '/edit' + '?' + new Date().getTime(); /* Edit user */
+			template = '/admin/user/'+ id + '/edit?v=' + new Date().getTime(); /* Edit user */
 		}
 		var modalInstance = $uibModal.open({
 		    animation: $scope.animationsEnabled,
@@ -55,7 +55,7 @@ userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableP
 
 	/* Delete user */
 	$scope.removeUser = function(id, size){
-		var template = window.baseUrl + '/app/components/back-end/users/view/DeleteUser.html?v=' + new Date().getTime() /* Delete user */
+		var template = '/app/components/back-end/users/view/DeleteUser.html?v=' + new Date().getTime() /* Delete user */
 		var modalInstance = $uibModal.open({
 		    animation: $scope.animationsEnabled,
 		    templateUrl: window.baseUrl + template,

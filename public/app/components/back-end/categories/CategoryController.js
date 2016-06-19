@@ -134,6 +134,7 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 			if(data.status == 0){
 				$scope.nameExists = true;
 				$scope.messageNameExists = data.errors.alias[0];
+				$('#page-loading').css('display', 'none');
 			} else{
 				$scope.categoryItem = data.category;
 				$scope.isSavedData = true;

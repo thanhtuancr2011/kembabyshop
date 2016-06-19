@@ -20,6 +20,7 @@ class CreateCategories extends Migration
             $table->longText('description')->nullable();
             $table->string('alias', 150);
             $table->integer('parent_id');
+            $table->string('ancestor_ids');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateCategories extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('categories');
     }
 }

@@ -13,22 +13,26 @@ userApp.factory('UserResource',['$resource', function ($resource){
 
     /* Function create new user */
 	this.createUserProvider = function(data){
+
         /* If isset id of user then call function edit user */
         if(typeof data['id'] != 'undefined') {
             return that.editUserProvider(data);
         }
+
 		var defer = $q.defer(); 
         var temp  = new UserResource(data);
-        /* Create user successfull */
+
         temp.$save({}, function success(data) {
+
             /* If user is created */
             if(data.status != 0) {
-                /* Push user is created to array users */
                 users.push(data.user);
             }
+
             /* Resolve result */
             defer.resolve(data);
         },
+        
         /* If create user is error */
         function error(reponse) {
             /* Resolve result */

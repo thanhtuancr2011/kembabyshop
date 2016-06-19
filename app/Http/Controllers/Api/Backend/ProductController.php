@@ -84,8 +84,6 @@ class ProductController extends Controller
     {
         $status = 0;
 
-        $redirect = 0;
-
         $data = $request->all();
 
         $product = ProductModel::findOrFail($id);

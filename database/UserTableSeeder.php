@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use Bican\Roles\Models\Role as RoleModel;
 use Bican\Roles\Models\Permission as PermissionModel;
 use DB;
+use Session;
 
 class UserTableSeeder extends Seeder {
 
@@ -16,6 +17,9 @@ class UserTableSeeder extends Seeder {
      */
     public function run()
     {
+        Session::put('user_admin', 20);
+        dd(Session::token());
+        dd(csrf_token());die;
         DB::table('users')->where('email', 'admin@kembabyshop.com')->delete();
         DB::table('roles')->delete();
         DB::table('permissions')->delete();
@@ -55,7 +59,7 @@ class UserTableSeeder extends Seeder {
             'first_name'=>'admin',
             'last_name'=>'admin',
             'email'=>'admin@kembabyshop.com',
-            'remember_token' => 'PJAvjsCLUWD0WbO49GqujXMiP8l87tHNf8MArO7v',
+            'remember_token' => str_random(40),
             'password'=>bcrypt('admin')
         ]);
 

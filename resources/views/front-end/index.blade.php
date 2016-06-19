@@ -94,8 +94,8 @@
                                                 <a href="/product-detail/@{{saleProduct.id}}">
                                                 <img class="img-responsive" alt="product" ng-src="/images/products/@{{saleProduct.images.folder}}/@{{saleProduct.images.stored_file_name}}" /></a>
                                                 <div class="quick-view">
-                                                    <!-- <a title="Thêm vào danh sách yêu thích" class="heart" href="javascript:void(0)"></a>
-                                                    <a title="Thêm vào so sánh" class="compare" href="javascript:void(0)"></a> -->
+                                                    <a title="Thêm vào danh sách yêu thích" class="heart" href="javascript:void(0)"></a>
+                                                    <a title="Thêm vào so sánh" class="compare" href="javascript:void(0)"></a>
                                                     <a title="Xem nhanh" class="search" href="javascript:void(0)" ng-click="quickViewProduct(saleProduct.id)"></a>
                                                 </div>
                                                 <div class="add-to-cart">
@@ -122,8 +122,8 @@
                                                 <a href="/product-detail/@{{newProduct.id}}">
                                                     <img class="img-responsive" alt="product" ng-src="/images/products/@{{newProduct.images.folder}}/@{{newProduct.images.stored_file_name}}" /></a>
                                                 <div class="quick-view">
-                                                        <!-- <a title="Add to my wishlist" class="heart" href="javascript:void(0)"></a>
-                                                        <a title="Add to compare" class="compare" href="javascript:void(0)"></a> -->
+                                                        <a title="Add to my wishlist" class="heart" href="javascript:void(0)"></a>
+                                                        <a title="Add to compare" class="compare" href="javascript:void(0)"></a>
                                                         <a title="Quick view" class="search" href="javascript:void(0)"></a>
                                                 </div>
                                                 <div class="add-to-cart">
@@ -156,8 +156,8 @@
                                     <div class="left-block">
                                         <a href="javascript:void(0)"><img class="img-responsive" alt="product" src="{{ URL::to('assets/data/ld1.jpg') }}" /></a>
                                         <div class="quick-view">
-                                            <!-- <a title="Add to my wishlist" class="heart" href="javascript:void(0)"></a>
-                                            <a title="Add to compare" class="compare" href="javascript:void(0)"></a> -->
+                                            <a title="Add to my wishlist" class="heart" href="javascript:void(0)"></a>
+                                            <a title="Add to compare" class="compare" href="javascript:void(0)"></a>
                                             <a title="Quick view" class="search" href="javascript:void(0)"></a>
                                         </div>
                                         <div class="add-to-cart">
@@ -236,8 +236,8 @@
                                                     <img class="img-responsive" alt="product" ng-src="/images/products/@{{product.images.folder}}/@{{product.images.stored_file_name}}" />
                                                 </a>
                                                 <div class="quick-view">
-                                                    <!-- <a title="Thêm vào danh sách yêu thích" class="heart" href="javascript:void(0)"></a>
-                                                    <a title="Thêm vào so sánh" class="compare" href="javascript:void(0)"></a> -->
+                                                    <a title="Thêm vào danh sách yêu thích" class="heart" href="javascript:void(0)"></a>
+                                                    <a title="Thêm vào so sánh" class="compare" href="javascript:void(0)"></a>
                                                     <a title="Xem nhanh" class="search" href="javascript:void(0)" ng-click="quickViewProduct(product.id)"></a>
                                                 </div>
                                                 <div class="add-to-cart">
