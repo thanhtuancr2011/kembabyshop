@@ -1,5 +1,4 @@
-userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileService', '$q', '$http',
-    function($scope, $uibModal, UserProfileService, $q, $http) {
+userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileService', '$q', '$http', function($scope, $uibModal, UserProfileService, $q, $http) {
     /* When js didn't  loaded then hide table user */
     $('.user-profile').removeClass('hidden');
     $('#page-loading').css('display', 'none');
@@ -20,16 +19,10 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
             },
         });
         modalInstance.result.then(function() {}, function() {
-
         });
     };
 
-    /**
-     * Upload image profile
-     * @param  {File}   files File upload
-     * @param  {String} type  Type upload
-     * @return {Void}       
-     */
+    /* Get modal crop avatar for user */
     $scope.upload = function(files, type) {
         if (files.length != 0) {
             $scope.files = files;
@@ -37,6 +30,7 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
         }
     }
 
+    /* Modal crop avatar */
     $scope.getModalCropAvatar = function(size) {
         var modalInstance = $uibModal.open({
             templateUrl: window.baseUrl + '/app/components/back-end/users/view/modal/myModalContent.html',
@@ -59,6 +53,7 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
         });
     };
 
+    /* Check first name */
     $scope.checkFirstName = function(data) {
         if (data == '') {
           return "Mời bạn nhập tên";
@@ -68,6 +63,7 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
         }
     };
 
+    /* Check last name */
     $scope.checkLastName = function(data) {
         if (data == '') {
           return "Mời bạn nhập họ";
@@ -77,48 +73,36 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
         }
     };
 
+    /* Check email is exists in system */
     $scope.checkEmail = function(email,id) {
 
         $status = 1;
-
         var regex_email = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
 
+        /* Check email is empty*/ 
         if(email == '') {
-
             return "Mời bạn nhập email!";
-
         } else if(regex_email.test(email) == false) {
-
             return "Email không đúng định dạng";
-
         } else {
-
             var d = $q.defer();
-
             $http.post('/api/user/profile/check-email', {id: id, email:email}).success(function(res) {
-
                 res = res || {};
                 if(res.status == 1) {
-
                     $scope.userProfile.email = email;
-
                     $scope.updateUser();
-
                     d.resolve();
-
                 } else {
-
                     d.resolve('Email đã tồn tại trong hệ thống.');
                 }
-
             }).error(function(e){
-
                 d.reject('Server error!');
             });
             return d.promise;
         }
     }
 
+    /* Update user */
     $scope.updateUser = function(){
         $('#page-loading').css('display', 'block');
         UserProfileService.update($scope.userProfile).then(function(data){
@@ -135,7 +119,9 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
     /* When user click add or edit user */
     $scope.submit = function() {
         $('#page-loading').css('display', 'block');
-        UserProfileService.changePassword($scope.user, userId).then(function(data) {
+        $scope.user.userId = userId;
+        UserProfileService.changePassword($scope.user).then(function(data) {
+
             /* If change password fail */
             if (data.status == 0) {
                 $('#page-loading').css('display', 'none');
@@ -171,6 +157,7 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
                 });
             };
         }
+
         $scope.changeAvatar = function() {
             $('#page-loading').css('display', 'block');
             UserProfileService.changeAvatar(userId, $scope.myCroppedImage).then(function(response) {
@@ -181,6 +168,5 @@ userApp.controller('UserProfileControler', ['$scope', '$uibModal', 'UserProfileS
         $scope.cancel = function() {
             $uibModalInstance.dismiss('cancel');
         };
-
     }
 ]);

@@ -57,17 +57,19 @@ userApp.factory('UserProfileResource',['$resource', function ($resource){
      * @param  {Object} avatar    Image
      * @return {Void}       
      */
-    this.changePassword = function(password, id)
+    this.changePassword = function(data)
     {
-        var defer = $q.defer();
-        UserProfileResource.save({method:'change-password', password: password, id: id},
-            function success(data) {
-                defer.resolve(data);
-            },
-            function error(reponse) {
-               defer.resolve(reponse.data);
-            });
-
-        return defer.promise;
+        var defer = $q.defer(); 
+        var temp  = new UserProfileResource(data);
+        /* Update password successfull */
+        temp.$save({method: 'change-password'}, function success(data) {
+            defer.resolve(data);
+        },
+        /* If create password is error */
+        function error(reponse) {
+            defer.resolve(reponse.data);
+        });
+        
+        return defer.promise; 
     };
 }]);

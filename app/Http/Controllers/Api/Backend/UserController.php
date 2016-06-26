@@ -26,13 +26,15 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * Create a user
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserFormRequest $request)
     {
+        $status = 0;
+
         /* Get all data input */
         $data = $request->all();
 
@@ -42,20 +44,18 @@ class UserController extends Controller
         /* Call function create new user */
         $user = $userModel->createNewUser($data);
 
-        $status = 0;
-
         /* If user was created */
         if ($user) {
             $status = 1;
         }
 
         /* Return user */
-        return new JsonResponse(['user'=>$user, 'status'=>$status]);
+        return new JsonResponse(['user' => $user, 'status' => $status]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Update a user.
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -71,20 +71,20 @@ class UserController extends Controller
         $user = UserModel::findOrFail($id);
 
         /* Call function create new user */
-        $user = $user->updateUser($data);
+        $result = $user->updateUser($data);
 
         /* If user was created */
-        if ($user) {
+        if ($result) {
             $status = 1;
         }
 
         /* Return user */
-        return new JsonResponse(['user' => $user, 'status' => $status]);
+        return new JsonResponse(['user' => $result, 'status' => $status]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * Remove a user.
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -101,15 +101,17 @@ class UserController extends Controller
     }
 
     /**
-     * [updateProfile description]
-     * @param  Request $request [description]
-     * @param  [type]  $userId  [description]
-     * @return [type]           [description]
+     * Update profile of user 
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>   
+     * @param  Request $request Request
+     * @param  Int     $userId  Id of user 
+     * @return \Illuminate\Http\Response
      */
     public function updateProfile($userId, UserFormRequest $request)
     {
+        d('123');die;
         /* If user has role or permission or update self */ 
-        if(\Auth::user()->is('super_admin') || \Auth::user()->can('user_admin') || \Auth::user()->id == $userId ){
+        if(\Auth::user()->is('super.admin') || \Auth::user()->can('user.admin') || \Auth::user()->id == $userId ){
             
             /* Get all data */
             $data = $request->all();
@@ -134,7 +136,8 @@ class UserController extends Controller
     public function changeAvatar(Request $request, $id = null)
     {
         // If user has role or permission or update self
-        if(\Auth::user()->is('super_admin') || \Auth::user()->can('user_admin') || \Auth::user()->id == $id ){
+        if(\Auth::user()->is('super.admin') || \Auth::user()->can('user.admin') || \Auth::user()->id == $id ){
+
             /* Get all data input */ 
             $data = $request->all();
             
@@ -144,16 +147,12 @@ class UserController extends Controller
             /* If has file image and has user */ 
             if(!empty($data['file']) && !empty($user)){
 
-                // Endcode and save image image
-                $data['file'] = str_replace('data:image/png;base64,', '', $data['file']);
-                $data['file'] = str_replace(' ', '+', $data['file']);
-                $result = FileService::saveAvatar(base64_decode($data['file']),$id);
-                $status = 0;
-                if(!is_array($result)){
-                    $user->avatar = $result;
-                    $user->save();
-                    return  new JsonResponse(['status' => 1, 'item' => $user]);
-                }else{
+                $result = $user->changeAvatarUser($data, $id);
+
+                /* If upload file isn't error */
+                if(!isset($result['error'])){
+                    return new JsonResponse(['status' => 1, 'item' => $result]);
+                } else{
                     return  new JsonResponse(['status' => 0, 'error' => $result['error']]);
                 }
             }
@@ -161,21 +160,27 @@ class UserController extends Controller
         }
     }
 
-    public function changePassword(Request $request, $id)
+    /**
+     * Change password for user
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+     * @param  Request $request Request
+     * @param  String  $id      Id of user 
+     * @return Response         
+     */
+    public function changePassword(Request $request)
     {
         // If user has role or permission or update self
-        if(\Auth::user()->is('super_admin') || \Auth::user()->can('user_admin') || \Auth::user()->id == $id ){
+        if(\Auth::user()->is('super.admin') || \Auth::user()->can('user.admin') || \Auth::user()->id == $id ){
+
             $status = 0;
             
             /* Get all data input */ 
             $data = $request->all();
 
             // Find user
-            $user = UserModel::find($id);
+            $user = UserModel::find($data['userId']);
 
-            /* Update user */
-            $user->password = bcrypt($data['password']['password']);
-            $status = $user->save();
+            $status = $user->changePasswordUser($data);
 
             return new JsonResponse(['status' => $status]);
         }
@@ -185,7 +190,7 @@ class UserController extends Controller
      * Check email user
      * @author Thanh Tuan <thanhtuancr2011@gmail.com>
      * @param  Request $request Request
-     * @return Json           
+     * @return Response           
      */
     public function checkEmailProfile(Request $request)
     {

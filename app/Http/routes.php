@@ -23,7 +23,7 @@ Route::group(['prefix' => 'api'], function(){
 
 	Route::put('user/update-profile/{id}', 'Api\Backend\UserController@updateProfile');
 	Route::post('user/change-avatar/{id}','Api\Backend\UserController@changeAvatar');
-	Route::post('user/change-password/{id}','Api\Backend\UserController@changePassword');
+	Route::post('user/change-password','Api\Backend\UserController@changePassword');
 	Route::post('user/profile/check-email','Api\Backend\UserController@checkEmailProfile');
 	Route::resource('user', 'Api\Backend\UserController');
 

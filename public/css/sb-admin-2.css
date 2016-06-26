@@ -555,4 +555,9 @@ table.dataTable thead .sorting:after {
     color: #fff;
     padding:6px;
 }
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px -15px 20px;
+    border-bottom: 1px solid #eee;
+}
 /*end*/

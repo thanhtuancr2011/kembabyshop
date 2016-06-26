@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Config;
 use Bican\Roles\Models\Role as RoleModel;
 use Bican\Roles\Models\Permission as PermissionModel;
+use App\Services\FileService;
 
 class UserModel extends BaseUserModel implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -139,7 +140,7 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
 
         /* Get avatar for user */
         $user->avatar = $this->getAvatarUrl($user->avatar, '160x160');
-        
+
         /* Get full name for user */
         $user->name = trim($user->last_name) . ' ' . trim($user->first_name);
 
@@ -151,11 +152,8 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
 
     /**
      * Create customer
-     *
      * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-     * 
      * @param  Array $data  Data input
-     * 
      * @return Object       User created
      */
     public function createNewCustomer($data)
@@ -164,12 +162,16 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
+
         /* Create new user */
         $user = self::create($data);
-        /* Search Mod role */
+
+        /* Format date created */
         $user->created_at = date('Y-m-d', strtotime($user->created_at));
+
         /* Get avatar for user */
         $user->avatar = $this->getAvatarUrl($user->avatar, '160x160');
+
         /* Get full name for user */
         $user->name = trim($user->last_name) . ' ' . trim($user->first_name);
 
@@ -178,11 +180,8 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
 
     /**
      * Update user
-     *
      * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-     * 
      * @param  Array $data  Data input 
-     * 
      * @return Object       User
      */
     public function updateUser($data)
@@ -191,12 +190,16 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
         if (!empty($data['password']) || isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
-        /* Create new user */
+
+        /* Update user */
         $this->update($data);
+
         /* Format created date */
         $this->created_at = date('Y-m-d', strtotime($this->created_at));
+
         /* Get full name for user */
         $this->name = trim($this->last_name) . ' ' . trim($this->first_name);
+
         /* Get avatar default if user hasn't avatar */
         if (empty($this->avatar)) {
             $this->avatar = '160x160_avatar_default.png?t=1';
@@ -206,12 +209,9 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
     }
 
     /**
-     * Check user is exists in system
-     *
+     * Check user is exists in system when edit 
      * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-     * 
      * @param  Array $data Data input
-     * 
      * @return Int         Status
      */
     public function checkUniqueEmailUser($data) 
@@ -221,29 +221,28 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
         /* Check unique email */
         if($this->email != $data['email']) {
 
+            /* Count user has email same email input */
             $count = self::where('email', $data['email'])->where('email', '!=', $this->email)->count();
 
             if($count > 0) {
-
                 $status = 0;
             }
         }
+
         return $status;
     }
 
     /**
-     * Check email is exists in system
-     *
+     * Check email is exists in system when login with fb
      * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-     * 
      * @param  String $email Email
-     * 
      * @return Void        
      */
     public function checkExistsEmail ($email)
     {
         $existsEmail = 0;
 
+        /* Find user has email same $email */
         $user = self::where('email', $email)->first();
 
         if (!empty($user)) {
@@ -251,5 +250,45 @@ class UserModel extends BaseUserModel implements AuthenticatableContract, CanRes
         }
 
         return $existsEmail;
+    }
+
+    /**
+     * Change avatar for user
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+     * @param  Array  $data  Data input
+     * @param  Int    $id    Id of user 
+     * @return Void            
+     */
+    public function changeAvatarUser ($data, $id) 
+    {
+        /* Endcode and save image  */
+        $data['file'] = str_replace('data:image/png;base64,', '', $data['file']);
+        $data['file'] = str_replace(' ', '+', $data['file']);
+        $result = FileService::saveAvatar(base64_decode($data['file']), $id);
+
+        if(!is_array($result)){
+            /* Save user */
+            $this->avatar = $result;
+            $this->save();
+            return $this;
+        }else{
+            return $result['error'];
+        }
+    }
+
+    /**
+     * Change password for user
+     * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+     * @param  Array  $data  Data input
+     * @return Int Status            
+     */
+    public function changePasswordUser ($data) 
+    {
+        $status = 0;
+        /* Update user */
+        $this->password = bcrypt($data['password']);
+        $status = $this->save();
+
+        return $status;
     }
 }

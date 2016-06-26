@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->is('super.admin') || (Auth::user()->id == $id)) {
+        if (Auth::user()->is('super.admin') || \Auth::user()->can('user.admin') || (Auth::user()->id == $id)) {
             /* Find user */
             $item = UserModel::findOrFail($id);
 

@@ -85,6 +85,7 @@ userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableP
 		$('#page-loading').css('display', 'block');
 		UserService.createUserProvider($scope.userItem).then(function (data){
 			if(data.status == 0){
+				$('#page-loading').css('display', 'none');
 				$scope.errors = data.error.email[0];
 			} else{
 				$('#page-loading').css('display', 'none');

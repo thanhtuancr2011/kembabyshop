@@ -29,7 +29,7 @@ class UserFormRequest extends FormRequest{
         	/* If email input = email of user edit */
         	if($user->email == $data['email']){
         		$rules = [
-					'email'=>'required|unique:users,email,null,id,email,!='.$user->email
+        			'email' => 'unique:users,email,NULL,id,email,$user->email'
 				];
         	}
         }
@@ -44,11 +44,11 @@ class UserFormRequest extends FormRequest{
 	public function messages()
     {
         return [
-            'email.unique' => 'Email này đã tồn tại',
-            'first_name.required' => 'Nhập họ của bạn',
-            'last_name.required' => 'Nhập tên của bạn',
-            'email.required' => 'Mời bạn nhập Email',
-            'password.required' => 'Bạn chưa nhập Password'
+            'email.unique' => 'Email này đã tồn tại trong hệ thống.',
+            'first_name.required' => 'Nhập họ của bạn.',
+            'last_name.required' => 'Nhập tên của bạn.',
+            'email.required' => 'Mời bạn nhập Email.',
+            'password.required' => 'Bạn chưa nhập Password.'
         ];
     }
 
