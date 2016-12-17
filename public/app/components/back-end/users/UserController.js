@@ -29,13 +29,14 @@ userApp.controller('UserControler', ['$scope', '$uibModal', '$filter', 'ngTableP
         }
     })
 
-	$scope.getModalUser = function(id){
+	$scope.getModalUser = function(id) {
+		
 		var template = '/admin/user/create?v='+ new Date().getTime();  /* Create user */
 		if(typeof id != 'undefined'){
 			template = '/admin/user/'+ id + '/edit?v=' + new Date().getTime(); /* Edit user */
 		}
 		var modalInstance = $uibModal.open({
-		    animation: $scope.animationsEnabled,
+		    animation: true,
 		    templateUrl: window.baseUrl + template,
 		    controller: 'ModalCreateUserCtrl',
 		    size: null,
