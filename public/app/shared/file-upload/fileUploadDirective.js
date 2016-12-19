@@ -1,85 +1,29 @@
 var fileUpload = angular.module('shop');
-fileUpload.directive("fileUpload", ['FileService', 'Upload', '$timeout',
-    function(FileService, Upload, $timeout) {
+fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootScope', function(FileService, Upload, $timeout, $rootScope) {
         return {
             restrict: 'EA',
             require : '^ngModel',
             scope: {
-                files:'=',
-                fileIds:'=',
-                openPicture:'&',
-                disabled: '=',
-                control: '=',
-                filesUpload: '=',
-                isSaved: '=',
-                onSelect: '&',
-                onEdit: '&',
-                fileType: '=',
                 multipleFile: '='
             },
             replace: true,
             transclude: true,
-            templateUrl: baseUrl + '/app/shared/file-upload/views/file-upload.html?v=1',
+            templateUrl: baseUrl + '/app/shared/file-upload/views/file-upload.html?v=2',
             link: function(scope, element, attrs, ngModel) {
+
                 scope.baseUrl = baseUrl;
                 scope.fileUpload = {};
-                scope.fileUploaded = [];
                 scope.fileError = {};
-
-                /**
-                 * After save file then begin upload file
-                 * @param  {Boolen} newVal  
-                 * @param  {Boolen} oldVal
-                 */
-                scope.$watch('isSaved', function(newVal, oldVal) {
-                    if (angular.isDefined(newVal)) {
-                        scope.upload(scope.selectedFile);
-                    } 
-                })
-
-                /**
-                 * Load file when edit
-                 */
-                if (angular.isDefined(scope.filesUpload)) {
-
-                    scope.selectedFile = [];
-
-                    angular.forEach(scope.filesUpload, function(value, key) {
-
-                        // Show file in view directive
-                        value.type = scope.fileType;
-                        value.progress = 100;
-                        scope.fileUpload[value['uniId']] = value;
-
-                        scope.selectedFile.push(value);
-
-                        // Set to scope file
-                        scope.fileUploaded.push(value);
-                        ngModel.$setViewValue({files: scope.fileUploaded});
-
-                        // Check user choose image
-                        scope.onSelect({selected: true});
-
-                    })
-                }
                
                 /**
                  * Choose file upload
-                 *
                  * @author Thanh Tuan <tuan@httsolution.com>
-                 * 
                  * @param  {File} files File
-                 * 
                  * @return {Void}       
                  */
                 scope.chooseFile = function(files) {
 
-                    scope.selectedFile = [];
-
                     if (files && files.length) {
-
-                        // Check user choose image
-                        scope.onSelect({selected: true});
 
                         for (var i = 0; i < files.length; i++) {
                             (function(i){
@@ -102,31 +46,24 @@ fileUpload.directive("fileUpload", ['FileService', 'Upload', '$timeout',
                                 file['error'] = '';
                                 scope.fileUpload[file['uniId']] = file;
 
-                                // Push to scope file selected 
-                                scope.selectedFile.push(file);
                             })(i);
                         }
+
+                        $rootScope.$broadcast('isChooseFile', { files: Object.keys(scope.fileUpload).length });
                     }
                 }
 
                 /**
                  * Upload file
-                 *
                  * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-                 * 
-                 * @param  {File} files File
-                 * 
                  * @return {Void}       
                  */
-                scope.upload = function (files) {
-                    // When user edit but no choose file
-                    if (angular.isUndefined(files)) {
-                        scope.onEdit({edited: true});
-                    }
+                scope.$on('upload', function () {
 
                     var count = 0;
+                    scope.fileUploaded = [];
 
-                    angular.forEach(files, function(file, key) {
+                    angular.forEach(scope.fileUpload, function(file, key) {
                         Upload.upload({
                             url: baseUrl + window.linkUpload,
                             file: file
@@ -141,7 +78,7 @@ fileUpload.directive("fileUpload", ['FileService', 'Upload', '$timeout',
                             }
                             
                         }).error(function(data, status, headers, config) {
-                            files.splice(1, i);
+                            scope.fileUpload.splice(1, i);
                             if(angular.isDefined(scope.fileUpload[file['uniId']])) {
                             if (angular.isDefined(data.message)) {
                                 scope.fileUpload[file['uniId']]['error'] = data.message;
@@ -155,27 +92,32 @@ fileUpload.directive("fileUpload", ['FileService', 'Upload', '$timeout',
                                     scope.fileUploaded.push(data.item);
                                 }
                             }
-                        }).finally(function(){
+                        }).finally(function() {
                             count++;
-                            if (count == files.length) {    
-                                $timeout(function(){
-                                    ngModel.$setViewValue({files: scope.fileUploaded});
-                                })
-                            }
+                            $timeout(function(){
+                                if (count == Object.keys(scope.fileUpload).length) { 
+                                    $rootScope.$broadcast('uploadSuccess', { files: scope.fileUploaded });
+                                }
+                            });
                         });
                     });
-                }
-
-                ngModel.$render = function(){
-                    $timeout(function(){
-                        scope.filesUpload = ngModel.$viewValue; 
-                    })   
-                }
+                });
 
                 /**
-                  * [checkFile description]
-                  * @param  {[type]} type [description]
-                  * @return {[type]}      [description]
+                 * Count file
+                 * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+                 * @return {Void}       
+                 */
+                scope.$on('count', function () {
+                    var count = Object.keys(scope.fileUpload).length;
+                    $rootScope.$broadcast('countSuccess', { number: count });
+                })
+
+                /**
+                  * Check file
+                  * @author Thanh Tuan <thanhtuancr2011@gmail.com>      
+                  * @param  Type     type The file type
+                  * @return String        The message
                   */
                 scope.checkFile = function(type){
                     return FileService.checkFile(type);
@@ -196,34 +138,7 @@ fileUpload.directive("fileUpload", ['FileService', 'Upload', '$timeout',
                  */
                 scope.deleteFile = function(uniId) {
                     delete scope.fileUpload[uniId];
-
-                    // Delete fileUploaded
-                    angular.forEach(scope.fileUploaded, function(value, key) {
-                        if (uniId == value['uniId']) {
-                            scope.fileUploaded.splice(key, 1);
-                        }
-                    });
-
-                    // Delete file selected
-                    angular.forEach(scope.selectedFile, function(value, key) {
-                        if (uniId == value['uniId']) {
-                            scope.selectedFile.splice(key, 1);
-                        }
-                    });
-
-                    $timeout(function(){
-                        ngModel.$setViewValue({files: scope.fileUploaded});
-                        // Set validate file
-                        if (scope.selectedFile.length == 0) {
-                            scope.onSelect({selected: false});
-                        }
-                    });
                 }
-                
-                scope.$on("emptyFiles", function (event, args) {
-                    scope.fileUpload = {};
-                    scope.fileUploaded = [];
-                });
                 
             }
         }

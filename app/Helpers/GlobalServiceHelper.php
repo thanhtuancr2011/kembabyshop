@@ -4,7 +4,7 @@ function getVersionImage(){
 }
 
 function getVersionScript(){
-	return 15;
+	return 19222;
 }
 function getVersionCss(){
 	return 13;

@@ -51,9 +51,12 @@
                 </div>
                 <div class="form-group" ng-class="{true: 'has-error'}[submitted && requireFile]">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-none">
-                        <file-upload ng-model="fileUploaded" multiple-file="true" is-saved="isSavedData" on-select="selectedFile(selected)"></file-upload>
+                        {{-- <file-upload ng-model="fileUploaded" multiple-file="true" is-saved="isSavedData" on-select="selectedFile(selected)"></file-upload> --}}
+                        <file-upload ng-model="fileUploaded" multiple-file="true"></file-upload>
                         <label class="control-label" ng-show="submitted && requireFile">Bạn chưa chọn hình ảnh cho danh mục.</label>
+                        @{{requireFile}} = 123
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="form-group" >
                     <label for="last_name">Mô tả </label>
@@ -65,6 +68,7 @@
                         <label class="control-label" ng-show="submitted && formCategory.keywords.$error.max">Số kí tự tối đa là 500.</label>
                     </div>
                 </div>
+                <div class="clearfix"></div>
                 <div class="form-group center-block pull-right">
                     <button class="btn btn-primary" ng-click="submit(formCategory.$invalid)">
                     <i class="fa fa-plus"></i>
@@ -72,6 +76,7 @@
                     </button>
                     <button class="btn btn-primary" ng-click="cancel()"><i class="fa fa-times"></i> Hủy</button>
                 </div>
+                <div class="clearfix"></div>
             </form>
         </div>
     </div>
