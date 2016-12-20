@@ -40,20 +40,12 @@
                             <input class="form-control" ng-init="initSortNumber()" placeholder="Vị trí" type="text" name="sort_order" id="sort-order" ng-model="categoryItem.sort_order" ng-required="true">
                         </div>
                     </div>
-                    <div class="form-group" >
-                        <label for="last_name">Từ khóa </label>
-                        <div class="">
-                            <input class="form-control" placeholder="Từ khóa" type="text" name="keywords" id="keywords" 
-                                   ng-model="categoryItem.keywords" 
-                                   ng-maxlength=250 >
-                            <label class="control-label" ng-show="submitted && formCategory.keywords.$error.max">Số kí tự tối đa là 250</label>
-                        </div>
-                    </div>
                     <div class="form-group" ng-class="{true: 'has-error'}[submitted && requireFile]">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-none">
-                            <file-upload ng-model="fileUploaded" multiple-file="true" file-type="'/png'" is-saved="isSavedData" files-upload="filesUpload" on-select="selectedFile(selected)" on-edit="editItem(edited)"></file-upload>
+                            <file-upload ng-model="fileUploaded" multiple-file="true" file-type="'/jpg'" files-upload="filesUpload" ></file-upload>
                             <label class="control-label" ng-show="submitted && requireFile">Bạn chưa chọn hình ảnh cho danh mục</label>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="form-group" >
                         <label for="last_name">Mô tả </label>
@@ -65,6 +57,7 @@
                             <label class="control-label" ng-show="submitted && formCategory.keywords.$error.max">Số kí tự tối đa là 500</label>
                         </div>
                     </div>
+                    <div class="clearfix"></div>
                 </form>
             </div>
         </div>

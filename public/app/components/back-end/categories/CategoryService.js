@@ -20,6 +20,7 @@ categoryApp.factory('CategoryResource',['$resource', function ($resource){
         var temp  = new CategoryResource(data);
         /* Create category successfull */
         temp.$save({}, function success(data) {
+            
             /* If category is created */
             if(data.status != 0) {
                 /* Push category is created to array categories */

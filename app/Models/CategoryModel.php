@@ -136,9 +136,7 @@ class CategoryModel extends Model
         $data['alias'] = str_slug($data['name'], '_');
 
         // Set keywords
-        if (isset($data['keywords'])) {
-            $data['keywords'] = str_slug($data['keywords'], '_');
-        }
+        $data['keywords'] = str_slug($data['name'], '-');
 
         $category = self::create($data);
 
@@ -178,18 +176,19 @@ class CategoryModel extends Model
     {   
         $categoryImage = new ImageModel;
 
-        if (isset($data['fileUploaded'])) {
+        if (isset($data['fileUploaded']) && count($data['fileUploaded']) > 0) {
+
             // File uploaded
             $filesUpload = $data['fileUploaded'];
 
             // Contain all uniIds of files uploaded
-            $uniIdsFile = array_fetch($filesUpload, 'uniId');
+            $uniIdsFile = array_pluck($filesUpload, 'uniId');
 
             // Get all images of product
             $images = $this->images->toArray();
             
             // Contain all uniIds of product images
-            $uniIdsCategory = array_fetch($images, 'uniId');
+            $uniIdsCategory = array_pluck($images, 'uniId');
 
             $uniIdsDelete = array_diff($uniIdsCategory, $uniIdsFile);
 
@@ -219,9 +218,7 @@ class CategoryModel extends Model
         $data['alias'] = str_slug($data['name'], '_');
 
         // Set keywords
-        if (isset($data['keywords'])) {
-            $data['keywords'] = str_slug($data['keywords'], '_');
-        }
+        $data['keywords'] = str_slug($data['keywords'], '-');
 
         $status = $this->update($data);
 

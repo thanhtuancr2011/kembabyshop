@@ -4,7 +4,9 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
             restrict: 'EA',
             require : '^ngModel',
             scope: {
-                multipleFile: '='
+                multipleFile: '=',
+                filesUpload: '=',
+                fileType: '='
             },
             replace: true,
             transclude: true,
@@ -14,6 +16,20 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                 scope.baseUrl = baseUrl;
                 scope.fileUpload = {};
                 scope.fileError = {};
+
+                /* Load file when edit */
+                if (angular.isDefined(scope.filesUpload)) {
+
+                    angular.forEach(scope.filesUpload, function(value, key) {
+                        // Show file in view directive
+                        value.type = scope.fileType;
+                        value.progress = 100;
+                        scope.fileUpload[value['uniId']] = value;
+
+                        $rootScope.$broadcast('isNotChooseFile', { 'val': false });
+
+                    })
+                }
                
                 /**
                  * Choose file upload
@@ -49,7 +65,7 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                             })(i);
                         }
 
-                        $rootScope.$broadcast('isChooseFile', { files: Object.keys(scope.fileUpload).length });
+                        $rootScope.$broadcast('isNotChooseFile', { 'val': false });
                     }
                 }
 
@@ -104,23 +120,36 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                 });
 
                 /**
-                 * Count file
-                 * @author Thanh Tuan <thanhtuancr2011@gmail.com>
-                 * @return {Void}       
-                 */
-                scope.$on('count', function () {
-                    var count = Object.keys(scope.fileUpload).length;
-                    $rootScope.$broadcast('countSuccess', { number: count });
-                })
-
-                /**
                   * Check file
                   * @author Thanh Tuan <thanhtuancr2011@gmail.com>      
-                  * @param  Type     type The file type
-                  * @return String        The message
+                  * @param  Type   type The file type
+                  * @return String      The message
                   */
-                scope.checkFile = function(type){
-                    return FileService.checkFile(type);
+                scope.checkFile = function(type) {
+
+                    var images = ['png', 'gif', 'jpg', 'jpeg'];
+
+                    if(typeof type !== 'undefined'){
+                        if(images.indexOf(type.split('/')[1]) != -1 ){
+                             return 'image';
+                        } else {
+                            switch(type.split('/')[1]) {
+                                case 'zip':
+                                    return 'zip';
+                                    break;
+                                case 'pdf':
+                                    return 'pdf';
+                                    break;
+                                case 'msword':
+                                    return 'msword';
+                                    break;
+                                default:
+                                    return 'other';
+                                    break;
+                            }
+                        }
+             
+                    }
                 }
 
                 /**
@@ -138,6 +167,10 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                  */
                 scope.deleteFile = function(uniId) {
                     delete scope.fileUpload[uniId];
+                    console.log(Object.keys(scope.fileUpload).length, 'scope.fileUpload).length');
+                    if (Object.keys(scope.fileUpload).length == 0) {
+                        $rootScope.$broadcast('isNotChooseFile', { val: true });
+                    }
                 }
                 
             }

@@ -27,6 +27,8 @@ class FileCategoryController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
+	 * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+	 *
 	 * @return Response
 	 */
 	public function store(Request $request)
@@ -36,15 +38,17 @@ class FileCategoryController extends Controller
 		$categoryModel = new CategoryModel;
 
 		if (!empty($_FILES)) {
+
 			if(empty($_FILES['file'])){
 				$message = 'Max file size is '. ini_get("upload_max_filesize");
-					return new JsonResponse(['status'=>0, 'message'=> $message], 422);
+				return new JsonResponse(['status'=>0, 'message' => $message], 422);
 			} else {
 				if ($_FILES['file']['error'] > 0) {
 					$error = $this->codeToMessage($_FILES['file']['error']);
 					return new JsonResponse(['status'=>0, 'message'=> $error], 422);
 				}
 			}
+
 			$result = $categoryModel->uploadFiles($_FILES['file']);
 
 			if($result['status'] == 0){
@@ -57,6 +61,12 @@ class FileCategoryController extends Controller
 		}
 	}
 
+	/**
+	 * Code to message error
+	 * @author Thanh Tuan <thanhtuancr2011@gmail.com>
+	 * @param  Integer $code The code error
+	 * @return String        The message
+	 */
 	private function codeToMessage($code)
     {
         switch ($code) {
@@ -88,6 +98,7 @@ class FileCategoryController extends Controller
         }
         return $message;
     }
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -100,6 +111,7 @@ class FileCategoryController extends Controller
 		$fileService = new FileService;
 		return $fileService->view( strtolower($file['stored_file_name']) , true, $file['folder_file'], 'default');
 	}
+
 	/**
 	 * [download]
 	 * @param  [type] $id file need download
@@ -110,16 +122,6 @@ class FileCategoryController extends Controller
 		$file = CategoryModel::find($id);
 		$fileService = new FileService;
 		return $fileService->download( strtolower($file['stored_file_name']) , true, $file['folder_file'], 'default');
-	}
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
 	}
 
 	/**

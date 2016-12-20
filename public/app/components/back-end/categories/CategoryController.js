@@ -88,55 +88,35 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 		$scope.categoriesTree = angular.copy(window.categoriesTree);
 	});
 
-	var replaceString = function (str) {
-        str= str.toLowerCase();  
-        str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");  
-        str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");  
-        str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");  
-        str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");  
-        str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");  
-        str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");  
-        str= str.replace(/đ/g,"d");  
-        return str; 
-    }
-
     $scope.requireFile = true;
 
 	// Save category	
 	$scope.save = function () {
-
-  		// Set alias
-		var alias = replaceString($scope.categoryItem.name);
-		$scope.categoryItem.alias = alias.replace(/\s+/g,'_').toLowerCase();
 
 		$('#page-loading').css('display', 'block');
 
 		CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
 
 			if(data.status == 0){
-
 				// When create with name is exists in system
 				$scope.nameExists = true;
 				$scope.messageNameExists = data.errors.alias[0];
 				$('#page-loading').css('display', 'none');
-
 			} else{
-
 				// Set data for scope category
 				$scope.categoryItem = data.category;
-
 				// Call function upload indirective
 				$scope.$broadcast('upload');
 			}
 		});
-
-		// Check name exists
-		$scope.$watch('categoryItem.name', function(newVal, oldVal) {
-	        if (newVal != oldVal) {
-	        	$scope.nameExists = false;
-	        }
-	    });
 	};
+
+	// Check name exists
+	$scope.$watch('categoryItem.name', function(newVal, oldVal) {
+        if (newVal != oldVal) {
+        	$scope.nameExists = false;
+        }
+    });
 
 	// After directive upload file success
 	$scope.$on('uploadSuccess', function(event, args) {
@@ -158,27 +138,16 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 		$scope.submitted   = true;
 
 		// Validate
-  		if(validate){
-			return;
-  		}
-
-		$scope.$broadcast('count');
-
-		// After directive count file success
-		$scope.$on('countSuccess', function(event, args) {
-		    var number = args.number;
-		    if (number > 0) {
-		    	$scope.requireFile = false;
-		    }
-		});
+  		if(validate) return;
 
 		if (!$scope.requireFile) {
 			$scope.save();
 		}
 	}
 
-	$scope.$on('isChooseFile', function (event, args) {
-		$scope.requireFile = false;
+	/* Event when user choose files or delete all files */
+	$scope.$on('isNotChooseFile', function (event, args) {
+		$scope.requireFile = args.val;
 	});
 
 	/* When user click cancel then close modal popup */
@@ -202,85 +171,64 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 
 	$scope.requireFile = true;
 
-	$scope.selectedFile = function(selected) {
-		if (selected == true) {
-			$scope.requireFile = false;
-		} else {
-			$scope.requireFile = true;
-		}
-	}
-
-	$scope.editItem = function (isEdited) {
-		if (!isEdited) return;
-		window.location.href = window.baseUrl + '/admin/category';
-	}
-
-	$scope.replaceString = function (str) {  
-		str= str.toLowerCase();  
-		str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");  
-		str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");  
-		str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");  
-		str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");  
-		str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");  
-		str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");  
-		str= str.replace(/đ/g,"d");  
-		return str;  
-	}
-
 	/* When user click add or edit category */
-	$scope.submit = function (validate) {
-
-		$scope.submitted  = true;
-
-		// Validate
-  		if(validate){
-			return;
-  		}
-
-  		if ($scope.requireFile) {
-			return;
-		}
-
-		var alias = $scope.replaceString($scope.categoryItem.name);
-
-		$scope.categoryItem.alias = alias.replace(/\s+/g,'_').toLowerCase();
+	$scope.save = function (validate) {
 
 		$('#page-loading').css('display', 'block');
 
-		CategoryService.createCategoryProvider($scope.categoryItem).then(function (data){
+		CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
+
 			// If name has exists
 			if(data.status == 0){
 				$scope.nameExists = true;
 				$scope.messageNameExists = data.errors.alias[0];
 			} else{
-				$scope.isSavedData = true;
+				// Set data for scope category
+				$scope.categoryItem = data.category;
+				// Call function upload indirective
+				$scope.$broadcast('upload');
 			}
 		});
-
-		// Check name exists
-		$scope.$watch('categoryItem.name', function(newVal, oldVal) {
-	        if (newVal != oldVal) {
-	        	$scope.nameExists = false;
-	        }
-	    });
 	};
 
-	// Check file upload
-	$scope.$watch('fileUploaded', function(newVal, oldVal) {
-		if (angular.isDefined(newVal) && (newVal.files.length > 0)) {
-			// Set file uploaded
-			$scope.categoryItem.fileUploaded = newVal.files;
-			// When user click submit
-			if ($scope.submitted == true) {
-				CategoryService.createCategoryProvider($scope.categoryItem).then(function (data){
-					// Update successfull
-					if(data.status != 0){
-						window.location.href = window.baseUrl + '/admin/category';
-					}
-				});
-			}
-		}
+	// Check name exists
+	$scope.$watch('categoryItem.name', function(newVal, oldVal) {
+        if (newVal != oldVal) {
+        	$scope.nameExists = false;
+        }
     });
+
+    // After directive upload file success
+	$scope.$on('uploadSuccess', function(event, args) {
+
+	    var allFiles = args.files;
+	    $scope.categoryItem.fileUploaded = allFiles;
+
+	    CategoryService.createCategoryProvider($scope.categoryItem).then(function (data){
+			// Update successfull
+			if(data.status != 0){
+				window.location.href = window.baseUrl + '/admin/category';
+			}
+		});
+	});
+
+	/* When user click add category */
+	$scope.submit = function (validate) {
+
+		$scope.submitted   = true;
+
+		// Validate
+  		if(validate) return;
+
+		if (!$scope.requireFile) {
+			$scope.save();
+		}
+	}
+
+	/* Event when user choose files or delete all files */
+	$scope.$on('isNotChooseFile', function (event, args) {
+		$scope.requireFile = args.val;
+	});
 
 	/* When user click cancel then close modal popup */
 	$scope.cancel = function () {

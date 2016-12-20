@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
         if (Auth::user()->is('super.mod') || Auth::user()->is('super.admin')) {
 
-            $categories = CategoryModel::all();
+            $categories = CategoryModel::where('parent_id', '!=', 0)->get();
 
             $listsMapCategories = CategoryModel::lists('name', 'id');
             
