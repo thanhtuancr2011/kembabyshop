@@ -15,9 +15,9 @@ class ProductModel extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'name', 'description', 'meta_description', 'keywords', 
-        'manufacturer', 'origin', 'availibility', 'size', 
-        'weight', 'dimension', 'price', 'old_price', 'category_id'
+        'name', 'description', 'keywords', 'manufacturer', 'origin', 
+        'availibility', 'size', 'alias', 'weight', 'dimension', 'price', 
+        'old_price', 'category_id', 'meta_description'
     ];    
 
     /**
@@ -54,7 +54,29 @@ class ProductModel extends Model
      * @return Array       Status
      */
     public function createNewProduct($data)
-    {           
+    {      
+        // Format value price
+        if (isset($data['price'])) 
+            $data['price'] = str_replace(',', '', $data['price']);
+
+        // Format value old price
+        if (isset($data['old_price'])) 
+            $data['old_price'] = str_replace(',', '', $data['old_price']);
+
+        // Format value availibility
+        if (isset($data['availibility'])) 
+            $data['availibility'] = str_replace(',', '', $data['availibility']);
+
+        // Format value weight
+        if (isset($data['weight'])) 
+            $data['weight'] = str_replace(',', '', $data['weight']);
+
+        // Set data keyword
+        $data['keywords'] = str_slug($data['name'], '-');
+
+        // Set data alias
+        $data['alias'] = str_slug($data['name'], '_');
+
         $product = self::create($data);
 
         return $product;
@@ -141,35 +163,42 @@ class ProductModel extends Model
     {
         $productImage = new ImageModel;
 
-        if (isset($data['fileUploaded'])) {
-            // File uploaded
-            $filesUpload = $data['fileUploaded'];
+        if (isset($data['fileUploaded']) || isset($data['filesDeleted'])) {
 
-            // Contain all uniIds of files uploaded
-            $uniIdsFile = array_fetch($filesUpload, 'uniId');
+            // Isset files upload
+            if (isset($data['fileUploaded']) && count($data['fileUploaded']) > 0) {
 
-            // Get all images of product
-            $images = $this->images->toArray();
-            
-            // Contain all uniIds of product images
-            $uniIdsProduct = array_fetch($images, 'uniId');
-
-            $uniIdsDelete = array_diff($uniIdsProduct, $uniIdsFile);
-
-            $imagesDelete = $productImage->whereIn('uniId', $uniIdsDelete)->get();
-
-            // Delete file images
-            $this->deleteFileImagesProduct($imagesDelete);            
-
-            // Delete all images of product
-            $this->images()->delete();
-
-            foreach ($filesUpload as $key => $file) {
-                $this->images()->create($file);
+                // Create file
+                foreach ($data['fileUploaded'] as $key => $file) {
+                    $status = $this->images()->create($file);
+                }
             }
-        }
 
-        $status = $this->update($data);
+            // If isset delete files
+            if (isset($data['filesDeleted']) && count($data['filesDeleted']) > 0) {
+                
+                // Get deleted file
+                $imagesDelete = $productImage->whereIn('uniId', $data['filesDeleted'])->get();
+
+                // Delete file images
+                $this->deleteFileImagesProduct($imagesDelete);
+
+                // Delete all images in table photos
+                foreach ($imagesDelete as $key => $imageDelete) {
+                    $status = $imageDelete->delete();
+                }
+            }
+
+        } else {
+
+            // Set alias
+            $data['alias'] = str_slug($data['name'], '_');
+
+            // Set keywords
+            $data['keywords'] = str_slug($data['keywords'], '-');
+
+            $status = $this->update($data);
+        } 
 
         return $status;
     }

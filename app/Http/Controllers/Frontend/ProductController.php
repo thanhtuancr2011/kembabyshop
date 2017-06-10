@@ -77,7 +77,6 @@ class ProductController extends Controller
     {
         $productModel = new ProductModel;
         $product = $productModel->getProductWithId($productId);
-
         return view('front-end.product.product-detail', compact('product'));
     }
 

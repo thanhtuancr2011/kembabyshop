@@ -35,15 +35,15 @@ class CartController extends Controller
         $imagesPath = $image->folder . $image->stored_file_name;
         
         // Add product to cart
-        Cart::instance('shopping')
-            ->add(array(
-                'id'      => $product->id, 
-                'name'    => $product->name, 
-                'qty'     => 1, 
-                'price'   => $product->price, 
-                'options' => array('imagesPath' => $imagesPath)
-            )
-        );
+        Cart::instance('shopping')->add(
+                                        array(
+                                            'id'      => $product->id, 
+                                            'name'    => $product->name, 
+                                            'qty'     => 1, 
+                                            'price'   => $product->price, 
+                                            'options' => array('imagesPath' => $imagesPath)
+                                        )
+                                    );
 
         // Get cart content
         $carts = getCarts();

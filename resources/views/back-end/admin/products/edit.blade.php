@@ -38,26 +38,14 @@
                             <div class="form-group" ng-class="{true: 'has-error'}[submitted && formProduct.price.$invalid]">
                                 <label for="last_name">Giá (*)</label>
                                 <div class="">
-                                    <input class="form-control" placeholder="Giá" type="text" ng-init="initCurrency('price')" name="price" id="price" 
-                                           string-to-number
-                                           ng-model="productItem.price" 
-                                           ng-required="true">
+                                    <input class="form-control" placeholder="Giá" type="text" name="price" id="price" ng-model="productItem.price" ng-required="true">
                                     <label class="control-label" ng-show="submitted && formProduct.price.$error.required">Bạn chưa nhập giá sản phẩm</label>
                                 </div>
                             </div>
                             <div class="form-group" ng-class="{true: 'has-error'}[submitted && formProduct.old_price.$invalid]">
                                 <label for="last_name">Giá cũ </label>
                                 <div class="">
-                                    <input class="form-control" placeholder="Giá cũ" type="text" ng-init="initCurrency('old_price')" name="old_price" id="old_price" ng-model="productItem.old_price">
-                                </div>
-                            </div>
-                            <div class="form-group" >
-                                <label for="last_name">Từ khóa </label>
-                                <div class="">
-                                    <input class="form-control" placeholder="Từ khóa" type="text" name="keywords" id="keywords" 
-                                           ng-model="productItem.keywords"
-                                           ng-required >
-                                    <label class="control-label" ng-show="submitted && formProduct.keywords.$error.max">Số kí tự tối đa là 250</label>
+                                    <input class="form-control" placeholder="Giá cũ" type="text" name="old_price" id="old_price" ng-model="productItem.old_price">
                                 </div>
                             </div>
                             <div class="form-group" ng-class="{true: 'has-error'}[submitted && formProduct.meta_description.$invalid]">
@@ -94,7 +82,7 @@
                             <div class="form-group" ng-class="{true: 'has-error'}[submitted && formProduct.availibility.$invalid]">
                                 <label for="last_name">Có sẵn trong kho </label>
                                 <div class="">
-                                    <input class="form-control" ng-init="initNumberAvailibility()" placeholder="Số lượng" type="text" name="availibility" id="availibility" ng-model="productItem.availibility">
+                                    <input class="form-control" placeholder="Số lượng" type="text" name="availibility" id="availibility" ng-model="productItem.availibility">
                                 </div>
                             </div>
                             <div class="form-group" >
@@ -111,7 +99,7 @@
                             <div class="form-group">
                                 <label for="last_name">Trọng lượng (gam) </label>
                                 <div class="">
-                                    <input class="form-control" ng-init="initNumberWeight()" placeholder="Trọng lượng" type="text" name="weight" id="weight" ng-model="productItem.weight">
+                                    <input class="form-control" placeholder="Trọng lượng" type="text" name="weight" id="weight" ng-model="productItem.weight">
                                 </div>
                             </div>
                             <div class="form-group" ng-class="{true: 'has-error'}[submitted && requireFile]">

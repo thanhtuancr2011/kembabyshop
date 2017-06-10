@@ -16,7 +16,6 @@
 {!! Html::script('bower_components/ngImgCrop/source/js/init.js')!!}
 {!! Html::script('bower_components/ngImgCrop/source/js/ng-img-crop.js')!!}
 {!! Html::script('bower_components/ngImgCrop/compile/minified/ng-img-crop.js')!!}
-{!! Html::script('bower_components/angular-cookies/angular-cookies.js')!!}
 {!! Html::script('bower_components/angular-xeditable/dist/js/xeditable.js') !!}
 {!! Html::script('bower_components/angular-sanitize/angular-sanitize.js')!!}
 {!! Html::script('bower_components/momentjs/min/moment.min.js')!!}

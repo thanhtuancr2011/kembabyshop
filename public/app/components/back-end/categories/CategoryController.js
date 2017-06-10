@@ -79,9 +79,7 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	$('#page-wrapper').removeClass('hidden');
 	$('#page-loading').css('display', 'none');
 
-	$scope.initSortNumber = function () {
-    	$("#sort-order").maskMoney({suffix: '', precision: 0});
-    };
+    $('input[name=sort_order]').mask('000,000,000,000', {reverse: true});
 
 	/* Show categories tree */
 	$timeout(function(){
@@ -89,27 +87,6 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	});
 
     $scope.requireFile = true;
-
-	// Save category	
-	$scope.save = function () {
-
-		$('#page-loading').css('display', 'block');
-
-		CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
-
-			if(data.status == 0){
-				// When create with name is exists in system
-				$scope.nameExists = true;
-				$scope.messageNameExists = data.errors.alias[0];
-				$('#page-loading').css('display', 'none');
-			} else{
-				// Set data for scope category
-				$scope.categoryItem = data.category;
-				// Call function upload indirective
-				$scope.$broadcast('upload');
-			}
-		});
-	};
 
 	// Check name exists
 	$scope.$watch('categoryItem.name', function(newVal, oldVal) {
@@ -125,6 +102,7 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	    $scope.categoryItem.fileUploaded = allFiles;
 
 	    CategoryService.createImageCategory($scope.categoryItem).then(function (data){
+
 			// Update successfull
 			if(data.status != 0){
 				window.location.href = window.baseUrl + '/admin/category';
@@ -141,7 +119,21 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
   		if(validate) return;
 
 		if (!$scope.requireFile) {
-			$scope.save();
+
+			$('#page-loading').css('display', 'block');
+
+			CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
+				// When create with name is exists in system
+				if(data.status == 0){
+					$scope.nameExists = true;
+					$scope.messageNameExists = data.errors.alias[0];
+					$('#page-loading').css('display', 'none');
+				// Call function upload indirective
+				} else{
+					$scope.categoryItem = data.category;
+					$scope.$broadcast('upload');
+				}
+			});
 		}
 	}
 
@@ -160,9 +152,7 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	$('#page-wrapper').removeClass('hidden');
 	$('#page-loading').css('display', 'none');
 
-	$scope.initSortNumber = function () {
-    	$("#sort-order").maskMoney({suffix: '', precision: 0});
-    };
+    $('input[name=sort_order]').mask('000,000,000,000', {reverse: true});
 
 	/* Show categories tree */
 	$timeout(function(){
@@ -170,26 +160,6 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 	});
 
 	$scope.requireFile = true;
-
-	/* When user click add or edit category */
-	$scope.save = function (validate) {
-
-		$('#page-loading').css('display', 'block');
-
-		CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
-
-			// If name has exists
-			if(data.status == 0){
-				$scope.nameExists = true;
-				$scope.messageNameExists = data.errors.alias[0];
-			} else{
-				// Set data for scope category
-				$scope.categoryItem = data.category;
-				// Call function upload indirective
-				$scope.$broadcast('upload');
-			}
-		});
-	};
 
 	// Check name exists
 	$scope.$watch('categoryItem.name', function(newVal, oldVal) {
@@ -203,7 +173,8 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
 
 	    var allFiles = args.files;
 	    $scope.categoryItem.fileUploaded = allFiles;
-
+	    $scope.categoryItem.filesDeleted = $scope.filesDeleted;
+	    
 	    CategoryService.createCategoryProvider($scope.categoryItem).then(function (data){
 			// Update successfull
 			if(data.status != 0){
@@ -221,13 +192,33 @@ categoryApp.controller('CategoryController', ['$scope', '$uibModal', '$filter', 
   		if(validate) return;
 
 		if (!$scope.requireFile) {
-			$scope.save();
+
+			$('#page-loading').css('display', 'block');
+
+			CategoryService.createCategoryProvider($scope.categoryItem).then(function (data) {
+
+				// If name has exists
+				if(data.status == 0){
+					$scope.nameExists = true;
+					$scope.messageNameExists = data.errors.alias[0];
+				// Call function upload indirective
+				} else{				
+					$scope.categoryItem = data.category;
+					$scope.$broadcast('upload');
+				}
+			});
 		}
 	}
 
 	/* Event when user choose files or delete all files */
 	$scope.$on('isNotChooseFile', function (event, args) {
 		$scope.requireFile = args.val;
+	});
+
+	/* Event when delete file */
+	$scope.filesDeleted = [];
+	$scope.$on('fileDeleted', function (event, args) {
+		$scope.filesDeleted.push(args.id);
 	});
 
 	/* When user click cancel then close modal popup */

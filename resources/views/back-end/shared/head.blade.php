@@ -1,4 +1,4 @@
-<head>
+	<head>
 	<meta charset="utf-8">
 	<meta name="description" content="">
 	<!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> -->
@@ -15,7 +15,6 @@
 	{!!Html::style('bower_components/fontawesome/css/font-awesome.min.css')!!}
 	{!!Html::style('bower_components/ui-iconpicker/dist/styles/ui-iconpicker.min.css')!!}
 	{!!Html::style('bower_components/fancytree/dist/skin-lion/ui.fancytree.min.css')!!}
-	{!!Html::style('bower_components/magnific-popup/dist/magnific-popup.css')!!}
 	{!!Html::style('bower_components/bootstrap/dist/css/bootstrap.min.css')!!}
 	{!!Html::style('bower_components/ng-table/dist/ng-table.min.css')!!}
 	{!!Html::style('bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css')!!}

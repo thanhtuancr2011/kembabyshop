@@ -28,6 +28,9 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
 
                         $rootScope.$broadcast('isNotChooseFile', { 'val': false });
 
+                        // Flag said me when edit item
+                        scope.isEdit = true;
+
                     })
                 }
                
@@ -96,10 +99,10 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                         }).error(function(data, status, headers, config) {
                             scope.fileUpload.splice(1, i);
                             if(angular.isDefined(scope.fileUpload[file['uniId']])) {
-                            if (angular.isDefined(data.message)) {
-                                scope.fileUpload[file['uniId']]['error'] = data.message;
-                            }
-                              scope.fileError[config.file['uniId']] = data;
+                                if (angular.isDefined(data.message)) {
+                                    scope.fileUpload[file['uniId']]['error'] = data.message;
+                                }
+                                scope.fileError[config.file['uniId']] = data;
                             }
                         }).success(function(data, status, headers, config) {
                             if(angular.isDefined(scope.fileUpload[config.file.uniId])){
@@ -166,10 +169,18 @@ fileUpload.directive('fileUpload', ['FileService', 'Upload', '$timeout', '$rootS
                  * @return {Void}       
                  */
                 scope.deleteFile = function(uniId) {
+
+                    // Delete file
                     delete scope.fileUpload[uniId];
-                    console.log(Object.keys(scope.fileUpload).length, 'scope.fileUpload).length');
+
+                    // If not file
                     if (Object.keys(scope.fileUpload).length == 0) {
                         $rootScope.$broadcast('isNotChooseFile', { val: true });
+                    }
+
+                    // When delete file
+                    if (angular.isDefined(scope.isEdit)) {
+                        $rootScope.$broadcast('fileDeleted', { id: uniId });
                     }
                 }
                 

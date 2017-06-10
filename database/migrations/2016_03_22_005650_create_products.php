@@ -15,7 +15,8 @@ class CreateProducts extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 150);
-            $table->text('meta_description');
+            $table->string('alias', 150);
+            $table->string('meta_description', 255);
             $table->longText('description');
             $table->string('keywords', 150)->nullable();
             $table->string('manufacturer', 150)->nullable();

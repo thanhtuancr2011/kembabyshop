@@ -36,15 +36,15 @@ class ProductFormRequest extends FormRequest
 
         $data = $this->all();
 
+        $data['alias'] = str_slug($data['name'], '_');
+
         if (!empty($data['id']))
         {
-            $product = ProductModel::find($data['id']);
+            $product = ProductModel::where('alias', $data['alias'])->where('id', '!=', $data['id'])->get();
 
-            if($product->alias == $data['alias']) {
+            if(!empty($product)) {
                 $rules = [ 
-                    'name' => 'required',
-                    'price' => 'required',
-                    'category_id' => 'required'
+                    'alias' => 'unique'
                 ]; 
             } 
         }

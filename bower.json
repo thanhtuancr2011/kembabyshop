@@ -30,9 +30,7 @@
 	    "ckeditor": "#full/4.3.3",
 	    "components-font-awesome": "~4.4.0",
 	    "metisMenu": "2.0.2",
-	    "jquery.maskedinput": "~1.4.1",
 	    "ckeditor": "#full/4.3.3",
-	    "jquery-maskmoney": "~3.0.2"
 	},
 	"resolutions": {
 	    "angular": "1.4.2"

@@ -36,7 +36,7 @@
                 <div class="form-group" ng-class="{true: 'has-error'}[submitted && formCategory.sort_order.$invalid]">
                     <label for="last_name">Vị trí </label>
                     <div class="">
-                        <input class="form-control" ng-init="initSortNumber()" placeholder="Vị trí" type="text" name="sort_order" id="sort-order" ng-model="categoryItem.sort_order" ng-required="true">
+                        <input class="form-control" placeholder="Vị trí" type="text" name="sort_order" id="sort-order" ng-model="categoryItem.sort_order" ng-required="true">
                         <label class="control-label" ng-show="submitted && formCategory.sort_order.$error.required">Bạn chưa chọn vị trí cho danh mục.</label>
                     </div>
                 </div>

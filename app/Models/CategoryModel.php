@@ -108,6 +108,7 @@ class CategoryModel extends Model
     public function getAncestorCategoryIds($category, &$ancestor_ids) 
     {
     	$ancestor_ids[] = $category['parent_id'];
+
         // If category has parent
     	if ($category['parent_id'] != 0) {
     		$cat = self::find($category['parent_id'])->toArray();
@@ -154,9 +155,7 @@ class CategoryModel extends Model
      */
     public function createImageCategory ($images) 
     {
-        $status = 0;
-
-        foreach ($images as $key => &$image) {
+        foreach ($images as $key => $image) {
             $status = $this->images()->create($image);
         }
 
@@ -176,51 +175,51 @@ class CategoryModel extends Model
     {   
         $categoryImage = new ImageModel;
 
-        if (isset($data['fileUploaded']) && count($data['fileUploaded']) > 0) {
+        if (isset($data['fileUploaded']) || isset($data['filesDeleted'])) {
 
-            // File uploaded
-            $filesUpload = $data['fileUploaded'];
+            // Isset files upload
+            if (isset($data['fileUploaded']) && count($data['fileUploaded']) > 0) {
 
-            // Contain all uniIds of files uploaded
-            $uniIdsFile = array_pluck($filesUpload, 'uniId');
-
-            // Get all images of product
-            $images = $this->images->toArray();
-            
-            // Contain all uniIds of product images
-            $uniIdsCategory = array_pluck($images, 'uniId');
-
-            $uniIdsDelete = array_diff($uniIdsCategory, $uniIdsFile);
-
-            $imagesDelete = $categoryImage->whereIn('uniId', $uniIdsDelete)->get();
-            
-            // Delete file images
-            $this->deleteFileImagesCategory($imagesDelete);
-
-            // Delete all images of product
-            $this->images()->delete();
-
-            foreach ($filesUpload as $key => $file) {
-                $this->images()->create($file);
+                // Create file
+                foreach ($data['fileUploaded'] as $key => $file) {
+                    $status = $this->images()->create($file);
+                }
             }
-        }        
 
-        // Set parent_id if data input not has
-        if (!isset($data['parent_id'])) {
-            $data['parent_id'] = 0;
+            // If isset delete files
+            if (isset($data['filesDeleted']) && count($data['filesDeleted']) > 0) {
+                
+                // Get deleted file
+                $imagesDelete = $categoryImage->whereIn('uniId', $data['filesDeleted'])->get();
 
-        // If user choose parent category it self
-        } elseif ($data['parent_id'] == $this->id) {
-            $data['parent_id'] = $this->parent_id;
-        }
+                // Delete file images
+                $this->deleteFileImagesCategory($imagesDelete);
 
-        // Set alias
-        $data['alias'] = str_slug($data['name'], '_');
+                // Delete all images in table photos
+                foreach ($imagesDelete as $key => $imageDelete) {
+                    $status = $imageDelete->delete();
+                }
+            }
 
-        // Set keywords
-        $data['keywords'] = str_slug($data['keywords'], '-');
+        } else {
+            
+            // Set parent_id if data input not has
+            if (!isset($data['parent_id'])) {
+                $data['parent_id'] = 0;
 
-        $status = $this->update($data);
+            // If user choose parent category it self
+            } elseif ($data['parent_id'] == $this->id) {
+                $data['parent_id'] = $this->parent_id;
+            }
+
+            // Set alias
+            $data['alias'] = str_slug($data['name'], '_');
+
+            // Set keywords
+            $data['keywords'] = str_slug($data['keywords'], '-');
+
+            $status = $this->update($data);
+        }    
 
         return $status;
     }
@@ -242,6 +241,7 @@ class CategoryModel extends Model
 
         // Each image want delete
         foreach ($imagesDelete as $key => $imageDelete) {
+
             // Folder contain image
             $folderName = $imageDelete->folder;
             // Folder delete
